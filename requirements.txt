@@ -6,3 +6,4 @@ torch==1.8.1
 tqdm==4.46.0
 Historic-Crypto==0.1.6
 plotly==5.9.0
+dash==2.6.0

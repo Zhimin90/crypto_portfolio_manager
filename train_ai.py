@@ -37,15 +37,15 @@ def run_ai(daily_history_df, asset_ls=['BTC-USD','ETH-USD'], adjustment_period=7
         initial_allocation = initial_allocation_ratio * initial_allocation_total_value 
         portfolio_df = pd.DataFrame(np.repeat(initial_allocation_ratio, daily_df.shape[0], axis=1).T,columns=['BTC','ETH','USD'],index=daily_df.index)
         
-        return_df = (asset_daily_returns_df).shift(1)
+        return_df = (asset_daily_returns_df)
         accumulator_df = pd.DataFrame(columns=asset_daily_returns_df.columns,index=asset_daily_returns_df.index)
         accumulator_df.iloc[0] = pd.Series(initial_allocation.flatten(),index=asset_daily_returns_df.columns) # initialize portfolio value of first index
 
         shape = accumulator_df.shape[0]
-        cummulated_returns = (np.cumprod(return_df.shift(-1).values, axis=0)-1)*np.tile(initial_allocation,[shape,1]).reshape(shape, accumulator_df.columns.shape[0]) +\
+        cummulated_returns = (np.cumprod(return_df.values, axis=0)-1)*np.tile(initial_allocation,[shape,1]).reshape(shape, accumulator_df.columns.shape[0]) +\
             np.tile(initial_allocation,[shape,1]).reshape(shape,accumulator_df.columns.shape[0])
 
-        accumulator_df.iloc[1:] = pd.DataFrame(cummulated_returns, index=accumulator_df.index).shift(1)
+        accumulator_df = pd.DataFrame(cummulated_returns, index=accumulator_df.index)
         return accumulator_df
 
     gains_ls = []

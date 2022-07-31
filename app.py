@@ -39,7 +39,7 @@ fig1 = px.line(
 
 fig2 = px.line(pd.read_parquet('./portfolio.pqt'), title='In porfolio asset values in $')
 fig3 = px.line(pd.read_parquet('./portfolio_ratio.pqt'), title='In porfolio asset ratio')
-fig4 = px.line(daily_history_df[['open','ticker']], color="ticker", symbol="ticker")
+fig4 = px.line(daily_history_df[['close', 'ticker']], color="ticker", symbol="ticker", title="Asset daily close price in $")
 
 app = Dash(__name__)
 
@@ -64,8 +64,8 @@ app.layout = html.Div(children=[
         figure=fig3
     ),
 
-    dcc.Graph(
-        id='ts-raw-asset-price',
+        dcc.Graph(
+        id='ts-raw-close-asset-price',
         figure=fig4
     ),
 ])
